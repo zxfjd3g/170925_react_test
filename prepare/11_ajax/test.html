@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>11_ajax</title>
+</head>
+<body>
+<div id="example"></div>
+
+<script type="text/javascript" src="../js/react.development.js"></script>
+<script type="text/javascript" src="../js/react-dom.development.js"></script>
+<script type="text/javascript" src="../js/babel.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
+<script type="text/babel">
+  /*
+  需求:
+    1. 界面效果如下
+    2. 根据指定的关键字在github上搜索匹配的最受关注的库
+    3. 显示库名, 点击链接查看库
+    4. 测试接口: https://api.github.com/search/repositories?q=r&sort=stars
+  */
+
+  class MostStarRepo extends React.Component {
+    constructor (props) {
+      super(props)
+      this.state = {
+        repoName: '',
+        repoUrl: ''
+      }
+    }
+    
+    componentDidMount () {
+      const url = `https://api.github.com/search/repositories?q=${this.props.searchWord}&sort=stars`
+      // const url = `https://api.github.com/search/repositories2?q=${this.props.searchWord}&sort=stars`
+      axios.get(url)
+        .then(response => {
+          const result = response.data
+          console.log(result)
+          const repo = result.items[0]
+          this.setState({
+            repoName: repo.name,
+            repoUrl: repo.html_url
+          })
+        })
+        .catch(error => {
+          // debugger
+          console.log(error)
+          alert('请求失败 '+ error.message)
+        })
+
+      /*fetch(url, {method: "GET"})
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          if(data.message) {
+            alert(`请求失败: ${data.message}`)
+          } else {
+            const repo = data.items[0]
+            this.setState({
+              repoName: repo.name,
+              repoUrl: repo.html_url
+            })
+          }
+        })*/
+    }
+
+    render () {
+      const {repoName, repoUrl} = this.state
+      if(!repoName) {
+        return <h2>loading...</h2>
+      } else {
+        return (
+          <h2>
+            most star repo is <a href={repoUrl}>{repoName}</a>
+          </h2>
+        )
+      }
+    }
+  }
+
+  ReactDOM.render(<MostStarRepo searchWord="r"/>, document.getElementById('example'))
+</script>
+</body>
+</html>
+
+
+

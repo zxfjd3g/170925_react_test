@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>09_form</title>
+</head>
+<body>
+<div id="example"></div>
+
+<script type="text/javascript" src="../js/react.development.js"></script>
+<script type="text/javascript" src="../js/react-dom.development.js"></script>
+<script type="text/javascript" src="../js/babel.min.js"></script>
+<script type="text/babel">
+  /*
+  1. 问题: 在react应用中, 如何收集表单输入数据
+  2. 包含表单的组件分类
+    受控组件
+    非受控组件
+  */
+  /*
+  需求: 自定义包含表单的组件
+    1. 界面如下所示
+    2. 输入用户名密码后, 点击登陆提示输入信息
+    3. 不提交表单
+  */
+  class LoginForm extends React.Component {
+    constructor(props) {
+      super(props)
+      this.state = {
+        username: ''
+      }
+      this.handleSubmit = this.handleSubmit.bind(this)
+      this.handleChange = this.handleChange.bind(this)
+    }
+
+    handleChange(event) {
+      this.setState({username: event.target.value})
+    }
+
+    handleSubmit(event) {
+      alert(`准备提交的用户名为: ${this.state.username}, 密码:${this.pwdInput.value}`)
+
+      // 阻止事件的默认行为: 提交表单
+      event.preventDefault()
+    }
+    render () {
+
+      return (
+        <form onSubmit={this.handleSubmit} action="/test">
+          <label>
+            用户名:
+            <input type="text" value={this.state.username} onChange={this.handleChange} />
+          </label>&nbsp;
+          <label>
+            密码:
+            <input type="password" ref={(input) => this.pwdInput = input} />
+          </label>&nbsp;
+          <input type="submit" value="登陆" />
+        </form>
+      )
+    }
+  }
+  
+  ReactDOM.render(<LoginForm />, document.getElementById('example'))
+</script>
+</body>
+</html>

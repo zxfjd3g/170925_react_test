@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>02_JSX</title>
+</head>
+<body>
+  <div id="test1"></div>
+  <div id="test2"></div>
+
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+  <script type="text/javascript">
+    // 1. 创建虚拟DOM
+    /*方式一: 纯JS(一般不用)创建虚拟DOM元素对象*/
+    const msg = 'I Like You!'
+    const myId = 'Atguigu'
+
+    const vDOM1 = React.createElement('h2', {id: myId}, msg.toUpperCase())
+    // 2. 渲染到真实页面
+    const domContainer = document.getElementById('test1')
+    // debugger
+    ReactDOM.render(vDOM1, domContainer)
+  </script>
+
+  <script type="text/babel">
+    // 1. 创建虚拟DOM
+    /*方式二: JSX创建虚拟DOM元素对象*/
+    const vDOM2 = <h3 id={myId.toUpperCase()}>{msg.toLowerCase()}</h3>
+    // debugger
+    // 2. 渲染到真实页面
+    ReactDOM.render(vDOM2, document.getElementById('test2'))
+  </script>
+</body>
+</html>
