@@ -19,6 +19,41 @@
       2. 点击按钮, 提示第一个输入框中的值
       3. 当第2个输入框失去焦点时, 提示这个输入框中的值
    */
+
+    // 1. 定义组件
+    class MyComponent extends React.Component {
+
+      constructor (props) {
+        super(props)
+
+        this.showInput = this.showInput.bind(this)
+        this.handleBlur = this.handleBlur.bind(this)
+      }
+
+      showInput () {
+        const input = this.refs.content
+        //alert(input.value)
+        alert(this.input.value)
+      }
+
+      handleBlur (event) {
+        alert(event.target.value)
+      }
+
+      render () {
+        return (
+          <div>
+            <input type="text" ref="content"/>&nbsp;&nbsp;
+            <input type="text" ref={input => this.input = input }/>&nbsp;&nbsp;
+            <button onClick={this.showInput}>提示输入</button>&nbsp;&nbsp;
+            <input type="text" placeholder="失去焦点提示内容" onBlur={this.handleBlur}/>
+          </div>
+        )
+      }
+    }
+
+    // 2. 渲染组件标签
+    ReactDOM.render(<MyComponent />, document.getElementById('example'))
   </script>
 </body>
 </html>
